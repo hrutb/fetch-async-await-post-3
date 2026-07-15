@@ -148,7 +148,6 @@ async function onRemove(ele){
         let removeId = ele.closest('.col-md-4').id; 
         let removeUrl =`${post_url}/${removeId}`;
 
-
   try{
       let response = await fetch(removeUrl,{ 
                     method:'DELETE',
@@ -156,14 +155,29 @@ async function onRemove(ele){
                          'content-type':"application/json",
                            Auth:'Get token from'
                      } 
-               
-      }) 
+                 })
       
-       if(!response.ok){ 
-              throw new Error();
-       }else{ 
-            return  response.json();
-       }
+    //   if(!response.ok){ 
+    //           throw new Error();
+    //        }else{ 
+    //           return  response.json();
+    //        }
+
+     let result =  await Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+         })
+            
+            if (result.isConfirmed){ 
+                  document.getElementById(removeId).remove();
+                  snackbar('delete successfully','success');
+                }
+           
 
   } catch{ 
             
